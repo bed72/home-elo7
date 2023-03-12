@@ -13,24 +13,26 @@ class InnerContentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: const <Widget>[
-        SizedBox(height: 16),
-        ExploreWidget(),
-        SizedBox(height: 16),
-        HorizontallyScrollingWidget(),
-        SizedBox(height: 24),
-        FeaturedWidget(),
-        SizedBox(height: 16),
-        FeaturedItemsWidget(),
-        SizedBox(height: 24),
-        RecentPhotosWidget(),
-        SizedBox(height: 16),
-        RecentPhotoLargeWidget(),
-        SizedBox(height: 12),
-        RecentPhotosSmallWidget(),
-        SizedBox(height: 16),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: const <Widget>[
+          SizedBox(height: 16),
+          ExploreWidget(),
+          SizedBox(height: 16),
+          HorizontallyScrollingWidget(),
+          SizedBox(height: 24),
+          FeaturedWidget(),
+          SizedBox(height: 16),
+          FeaturedItemsWidget(),
+          SizedBox(height: 24),
+          RecentPhotosWidget(),
+          SizedBox(height: 16),
+          RecentPhotoLargeWidget(),
+          SizedBox(height: 12),
+          RecentPhotosSmallWidget(),
+          SizedBox(height: 16),
+        ],
+      ),
     );
   }
 }

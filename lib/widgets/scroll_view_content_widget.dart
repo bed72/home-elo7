@@ -6,16 +6,10 @@ class ScrollViewContentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return const Card(
       elevation: 6.0,
-      margin: const EdgeInsets.all(0),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24),
-        ),
-        child: const InnerContentWidget(),
-      ),
+      margin: EdgeInsets.all(0),
+      child: InnerContentWidget(),
     );
   }
 }

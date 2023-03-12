@@ -21,10 +21,32 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  final _minChildSize = 0.20;
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  final _minChildSize = 0.16;
   final _maxChildSize = 0.96;
 
+  final _tabs = [
+    const Tab(
+      icon: Icon(
+        Icons.dashboard,
+        color: Colors.blueGrey,
+      ),
+    ),
+    const Tab(
+      icon: Icon(
+        Icons.beach_access_sharp,
+        color: Colors.blueGrey,
+      ),
+    ),
+    const Tab(
+      icon: Icon(
+        Icons.notifications_active,
+        color: Colors.blueGrey,
+      ),
+    ),
+  ];
+
+  late TabController _tabController;
   late ScrollController _scrollViewController;
   late DraggableScrollableController _draggableScrollableController;
 
@@ -33,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
 
     _draggableScrollableController = DraggableScrollableController();
+    _tabController = TabController(vsync: this, length: _tabs.length);
     _scrollViewController = ScrollController(initialScrollOffset: 0.0)
       ..addListener(_scrollListener);
   }
@@ -41,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void dispose() {
     _scrollViewController.removeListener(_scrollListener);
 
+    _tabController.dispose();
     _scrollViewController.dispose();
     _draggableScrollableController.dispose();
 
@@ -50,19 +74,27 @@ class _HomeScreenState extends State<HomeScreen> {
   void _scrollListener() {
     final value = _scrollViewController.position.extentAfter;
 
-    if (value <= 10) {
-      _draggableScrollableController.animateTo(
-        0.60,
-        curve: Curves.easeOutQuint,
-        duration: const Duration(milliseconds: 1600),
-      );
+    if (value <= 8) {
+      _openDraggable();
     } else {
-      _draggableScrollableController.animateTo(
-        _minChildSize,
-        curve: Curves.easeOutQuint,
-        duration: const Duration(milliseconds: 1600),
-      );
+      _closeDraggable();
     }
+  }
+
+  void _openDraggable() {
+    _draggableScrollableController.animateTo(
+      0.86,
+      curve: Curves.easeOutQuint,
+      duration: const Duration(milliseconds: 1600),
+    );
+  }
+
+  void _closeDraggable() {
+    _draggableScrollableController.animateTo(
+      _minChildSize,
+      curve: Curves.easeOutQuint,
+      duration: const Duration(milliseconds: 1600),
+    );
   }
 
   @override
@@ -74,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
           SingleChildScrollView(
             controller: _scrollViewController,
             child: Container(
-              margin: const EdgeInsets.only(top: 32, bottom: 200),
+              margin: const EdgeInsets.only(top: 32, bottom: 256),
               child: const InnerContentWidget(),
             ),
           ),
@@ -85,9 +117,40 @@ class _HomeScreenState extends State<HomeScreen> {
             initialChildSize: _minChildSize,
             controller: _draggableScrollableController,
             builder: (BuildContext context, ScrollController scrollController) {
-              return SingleChildScrollView(
+              return CustomScrollView(
                 controller: scrollController,
-                child: const ScrollViewContentWidget(),
+                slivers: [
+                  SliverAppBar(
+                    pinned: true,
+                    floating: true,
+                    toolbarHeight: 0,
+                    backgroundColor: Colors.white,
+                    shape: const ContinuousRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(24),
+                        topRight: Radius.circular(24),
+                      ),
+                    ),
+                    bottom: TabBar(
+                      tabs: _tabs,
+                      controller: _tabController,
+                      onTap: (_) => _openDraggable(),
+                      indicatorSize: TabBarIndicatorSize.label,
+                      overlayColor:
+                          MaterialStateProperty.all<Color>(Colors.transparent),
+                    ),
+                  ),
+                  SliverFillRemaining(
+                    child: TabBarView(
+                      controller: _tabController,
+                      children: const [
+                        ScrollViewContentWidget(),
+                        ScrollViewContentWidget(),
+                        ScrollViewContentWidget(),
+                      ],
+                    ),
+                  ),
+                ],
               );
             },
           ),
