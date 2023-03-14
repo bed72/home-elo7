@@ -7,8 +7,6 @@ import 'package:elo7/widgets/recent_photos_widget.dart';
 import 'package:elo7/widgets/staggered_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'package:elo7/widgets/explore_widget.dart';
-
 class InnerContentWidget extends StatelessWidget {
   const InnerContentWidget({super.key});
 
@@ -17,8 +15,6 @@ class InnerContentWidget extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: const <Widget>[
-          SizedBox(height: 16),
-          ExploreWidget(),
           SizedBox(height: 16),
           HorizontallyScrollingWidget(),
           SizedBox(height: 16),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:elo7/widgets/explore_widget.dart';
 import 'package:elo7/widgets/featured_widget.dart';
 import 'package:elo7/widgets/recent_photos_widget.dart';
 import 'package:elo7/widgets/featured_items_widget.dart';
@@ -15,8 +14,6 @@ class BackgroundWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: const [
-        SizedBox(height: 16),
-        ExploreWidget(),
         SizedBox(height: 16),
         HorizontallyScrollingWidget(),
         SizedBox(height: 24),

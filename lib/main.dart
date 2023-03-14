@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:elo7/widgets/inner_content_widget.dart';
 import 'package:elo7/widgets/scroll_view_content_widget.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,27 +23,69 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  final _minChildSize = 0.16;
-  final _maxChildSize = 0.96;
+  int _selectedIndex = 0;
 
-  final _tabs = [
+  final _minChildSize = 0.08;
+  final _maxChildSize = 1.00;
+
+  final _tabs = <Tab>[
     const Tab(
       icon: Icon(
-        Icons.dashboard,
-        color: Colors.blueGrey,
+        Icons.add_circle_sharp,
+        color: Colors.black26,
       ),
     ),
     const Tab(
-      icon: Icon(
-        Icons.beach_access_sharp,
-        color: Colors.blueGrey,
-      ),
+      child: Text('explore o novo', style: TextStyle(color: Colors.black54)),
     ),
     const Tab(
-      icon: Icon(
-        Icons.notifications_active,
-        color: Colors.blueGrey,
-      ),
+      child: Text('casamento', style: TextStyle(color: Colors.black54)),
+    ),
+    const Tab(
+      child: Text('festa & evento', style: TextStyle(color: Colors.black54)),
+    ),
+    const Tab(
+      child: Text('maternidade', style: TextStyle(color: Colors.black54)),
+    ),
+    const Tab(
+      child: Text('decoração', style: TextStyle(color: Colors.black54)),
+    ),
+    const Tab(
+      child: Text('bebê & infantil', style: TextStyle(color: Colors.black54)),
+    ),
+    const Tab(
+      child: Text('aniversário', style: TextStyle(color: Colors.black54)),
+    ),
+    const Tab(
+      child: Text('Harry Potter', style: TextStyle(color: Colors.black54)),
+    ),
+  ];
+
+  final _bottom = <BottomNavigationBarItem>[
+    BottomNavigationBarItem(
+      label: '',
+      icon: const Icon(Icons.home),
+      backgroundColor: Colors.grey[900],
+    ),
+    BottomNavigationBarItem(
+      label: '',
+      icon: const Icon(Icons.shopping_cart),
+      backgroundColor: Colors.grey[900],
+    ),
+    BottomNavigationBarItem(
+      label: '',
+      icon: const Icon(Icons.message),
+      backgroundColor: Colors.grey[900],
+    ),
+    BottomNavigationBarItem(
+      label: '',
+      icon: const Icon(Icons.favorite),
+      backgroundColor: Colors.grey[900],
+    ),
+    BottomNavigationBarItem(
+      label: '',
+      icon: const Icon(Icons.menu),
+      backgroundColor: Colors.grey[900],
     ),
   ];
 
@@ -97,10 +140,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[50],
+      backgroundColor: Colors.grey[900],
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: true,
+        backgroundColor: Colors.grey[900],
+        leading: const Icon(Icons.camera_alt),
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarBrightness: Brightness.dark,
+        ),
+        title: const Text(
+          'Bed - 88521-300',
+          style: TextStyle(fontSize: 14),
+        ),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Icon(Icons.search),
+          )
+        ],
+      ),
       body: Stack(
         children: <Widget>[
           SingleChildScrollView(
@@ -117,45 +185,69 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             initialChildSize: _minChildSize,
             controller: _draggableScrollableController,
             builder: (BuildContext context, ScrollController scrollController) {
-              return CustomScrollView(
-                controller: scrollController,
-                slivers: [
-                  SliverAppBar(
-                    elevation: 0,
-                    pinned: true,
-                    floating: true,
-                    toolbarHeight: 0,
-                    backgroundColor: Colors.white,
-                    shape: const ContinuousRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(24),
-                        topRight: Radius.circular(24),
+              return Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24),
+                  ),
+                ),
+                child: CustomScrollView(
+                  controller: scrollController,
+                  slivers: [
+                    SliverAppBar(
+                      elevation: 0,
+                      pinned: true,
+                      floating: true,
+                      toolbarHeight: 0,
+                      backgroundColor: Colors.white,
+                      shape: const ContinuousRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(24),
+                          topRight: Radius.circular(24),
+                        ),
+                      ),
+                      bottom: TabBar(
+                        tabs: _tabs,
+                        isScrollable: true,
+                        controller: _tabController,
+                        indicatorSize: TabBarIndicatorSize.label,
+                        onTap: (_) => _openDraggable(to: _maxChildSize),
+                        overlayColor: MaterialStateProperty.all<Color>(
+                            Colors.transparent),
                       ),
                     ),
-                    bottom: TabBar(
-                      tabs: _tabs,
-                      controller: _tabController,
-                      indicatorSize: TabBarIndicatorSize.label,
-                      onTap: (_) => _openDraggable(to: _maxChildSize),
-                      overlayColor:
-                          MaterialStateProperty.all<Color>(Colors.transparent),
+                    SliverFillRemaining(
+                      child: TabBarView(
+                        clipBehavior: Clip.antiAlias,
+                        controller: _tabController,
+                        children: const [
+                          ScrollViewContentWidget(),
+                          ScrollViewContentWidget(),
+                          ScrollViewContentWidget(),
+                          ScrollViewContentWidget(),
+                          ScrollViewContentWidget(),
+                          ScrollViewContentWidget(),
+                          ScrollViewContentWidget(),
+                          ScrollViewContentWidget(),
+                          ScrollViewContentWidget(),
+                        ],
+                      ),
                     ),
-                  ),
-                  SliverFillRemaining(
-                    child: TabBarView(
-                      controller: _tabController,
-                      children: const [
-                        ScrollViewContentWidget(),
-                        ScrollViewContentWidget(),
-                        ScrollViewContentWidget(),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               );
             },
           ),
         ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: _bottom,
+        onTap: _onItemTapped,
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.grey[500],
       ),
     );
   }
