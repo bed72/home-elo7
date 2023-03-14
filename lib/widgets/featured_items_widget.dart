@@ -10,12 +10,12 @@ class FeaturedItemsWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: GridView.count(
-        physics: const NeverScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(0),
+        shrinkWrap: true,
         crossAxisCount: 2,
         mainAxisSpacing: 12,
         crossAxisSpacing: 12,
-        shrinkWrap: true,
+        padding: const EdgeInsets.all(0),
+        physics: const NeverScrollableScrollPhysics(),
         children: const <Widget>[
           FeaturedItemWidget(),
           FeaturedItemWidget(),

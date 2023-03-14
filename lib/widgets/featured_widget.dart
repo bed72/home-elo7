@@ -5,12 +5,11 @@ class FeaturedWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16),
-      child: Row(
-        children: const <Widget>[
-          Text('Featured', style: TextStyle(fontSize: 14))
-        ],
+    return const Padding(
+      padding: EdgeInsets.only(left: 16),
+      child: Text(
+        'Featured',
+        style: TextStyle(fontSize: 14),
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:elo7/widgets/horizontal_scrolling_widget.dart';
 import 'package:elo7/widgets/recent_photo_large_widget.dart';
 import 'package:elo7/widgets/recent_photo_small_widget.dart';
 import 'package:elo7/widgets/recent_photos_widget.dart';
+import 'package:elo7/widgets/staggered_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:elo7/widgets/explore_widget.dart';
@@ -20,6 +21,8 @@ class InnerContentWidget extends StatelessWidget {
           ExploreWidget(),
           SizedBox(height: 16),
           HorizontallyScrollingWidget(),
+          SizedBox(height: 16),
+          StaggeredWidget(),
           SizedBox(height: 24),
           FeaturedWidget(),
           SizedBox(height: 16),

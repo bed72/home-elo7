@@ -74,16 +74,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void _scrollListener() {
     final value = _scrollViewController.position.extentAfter;
 
-    if (value <= 8) {
+    if (value <= 10) {
       _openDraggable();
     } else {
       _closeDraggable();
     }
   }
 
-  void _openDraggable() {
+  void _openDraggable({double to = 0.80}) {
     _draggableScrollableController.animateTo(
-      0.86,
+      to,
       curve: Curves.easeOutQuint,
       duration: const Duration(milliseconds: 1600),
     );
@@ -106,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           SingleChildScrollView(
             controller: _scrollViewController,
             child: Container(
-              margin: const EdgeInsets.only(top: 32, bottom: 256),
+              margin: const EdgeInsets.only(top: 32, bottom: 200),
               child: const InnerContentWidget(),
             ),
           ),
@@ -121,6 +121,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 controller: scrollController,
                 slivers: [
                   SliverAppBar(
+                    elevation: 0,
                     pinned: true,
                     floating: true,
                     toolbarHeight: 0,
@@ -134,8 +135,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     bottom: TabBar(
                       tabs: _tabs,
                       controller: _tabController,
-                      onTap: (_) => _openDraggable(),
                       indicatorSize: TabBarIndicatorSize.label,
+                      onTap: (_) => _openDraggable(to: _maxChildSize),
                       overlayColor:
                           MaterialStateProperty.all<Color>(Colors.transparent),
                     ),
